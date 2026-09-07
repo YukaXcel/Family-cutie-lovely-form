@@ -1,0 +1,15 @@
+# Firebase / secrets — ห้าม push ของจริงขึ้น repo
+firebase-config.local.js
+.env
+.env.*
+serviceAccount*.json
+*-key.json
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Netlify
+.netlify/

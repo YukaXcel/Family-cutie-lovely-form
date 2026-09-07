@@ -1,0 +1,3 @@
+# Family Heart — Netlify (static, ง่ายสุด)
+[build]
+  publish = "."
