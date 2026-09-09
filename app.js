@@ -123,7 +123,13 @@ form.addEventListener("submit", async (e) => {
   setLoading(true);
   try {
     if (USE_MOCK) {
-      mockLogin(rawId, password);
+      try {
+        mockLogin(rawId, password);
+      } catch (err) {
+        // เดโม: input ใดๆ เข้าได้เลย ยังไม่มีบัญชีให้สมัครอัตโนมัติ
+        if (err.code === "auth/invalid-credential") mockSignup(rawId, password);
+        else throw err;
+      }
       goHome("เข้าสู่ระบบสำเร็จ (โหมดทดลอง) กำลังพาไปหน้าหลัก...");
     } else {
       await signInWithEmailAndPassword(auth, email, password);

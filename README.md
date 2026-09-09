@@ -1,10 +1,14 @@
-# Family Heart — หน้า Login
+# Family Heart — แอปครอบครัว (8 หน้า, พร้อมเดโม)
 
-โปรเจกต์นี้มี 3 ไฟล์หลัก:
-- `index.html` — หน้า login (โครงสร้าง + ดีไซน์)
-- `app.js` — โค้ด JavaScript เชื่อม Firebase Auth (login / สมัครสมาชิก / ลืมรหัสผ่าน)
-- `firebase-config.js` — ใส่ค่า config ของโปรเจกต์ Firebase ตัวเอง
-- `home.html` — หน้าหลักชั่วคราว (จะสร้างเต็มในขั้นต่อไป)
+ไฟล์หลัก:
+- `index.html` + `app.js` — Screen 1 login (mock: input ใดๆ เข้าได้เลย)
+- `home.html` — Screen 2–8 (SPA, vanilla JS show/hide, ไม่มี router lib)
+- `styles.css` — design system (ชมพู #FDE6ED–#FBD5E3, ปุ่ม #F4A6C1→#EF7FA8, ตัวอักษร #3A2E45)
+- `family-data.js` — mock DB ใน memory (1 ครอบครัว 4 คน, ประวัติ 9 ชุด, ภารกิจ 10, แชท 4 threads, ที่ปรึกษา 1)
+- `family-app.js` — radar SVG + trend chart วาดเอง, แชทตอบกลับ, ภารกิจ toggle
+
+รันเดโม: `python3 -m http.server 5500` แล้วเปิด http://localhost:5500 (ห้ามเปิดไฟล์ตรงๆ เพราะ ES module)
+Deploy: ลากโฟลเดอร์วางที่ Netlify (ดู `netlify.toml`) แล้วเพิ่มโดเมนใน Firebase Authorized domains ถ้าใช้ auth จริง
 
 ## ขั้นตอนที่ 1: สร้างโปรเจกต์ Firebase
 
