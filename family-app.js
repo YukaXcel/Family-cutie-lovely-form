@@ -189,6 +189,8 @@ function renderEgg() {
   btn.setAttribute("aria-label", d >= 3
     ? "มังกรฟักแล้ว แตะเพื่อดูสถานะ"
     : `ไข่สตรีค ${d} วันติดกัน แตะเพื่อดูสถานะ`);
+  const dev = $("#devStreak");
+  if (dev) dev.textContent = d;
 }
 function openEggModal() {
   const d = DB.family.streak.days, body = $("#eggModalBody");
@@ -218,6 +220,33 @@ function playHatch() {
       <div class="hatch-sub">ครอบครัวน่ารักที่สุด</div>`;
   }, 1900);
   setTimeout(() => veil.classList.remove("open"), 3700);
+}
+
+/* ---------- dev-only day simulator ---------- */
+function devShiftLastDate(backDays) {
+  const s = DB.family.streak;
+  const base = s.lastDate ? new Date(s.lastDate + "T12:00:00") : new Date();
+  base.setDate(base.getDate() - backDays);
+  s.lastDate = dayKey(base);
+}
+// จำลอง: ผ่านไป 1 วัน + มีคนทำภารกิจ → สตรีค +1 (กด 3 ครั้งติด = ฟัก)
+function devAddDay() {
+  devShiftLastDate(1);
+  const hatched = recordMissionDay();
+  renderMissions();
+  if (hatched) playHatch();
+}
+// จำลอง: ผ่านไป 1 วันโดยไม่มีใครทำภารกิจ → สตรีคขาด รีเซ็ตเป็น 0
+function devSkipDay() {
+  devShiftLastDate(2);
+  checkStreakExpiry();
+  renderMissions();
+}
+function devResetStreak() {
+  DB.family.streak.days = 0;
+  DB.family.streak.lastDate = null;
+  state.hatched = false;
+  renderMissions();
 }
 function addBonus(id) { const m = DB.missions.find((x) => x.id === id); m.type = "daily"; m.date = "วันนี้"; m.done = false; renderMissions(); }
 
