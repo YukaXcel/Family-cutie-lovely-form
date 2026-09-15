@@ -6,7 +6,8 @@ const DB = {
     { id: "uKid", name: "น้องมิ้น", role: "น้อง", color: "#F4B942", initial: "ม", phone: "-", love: "กอด", joined: "ก.พ. 2025" },
     { id: "uMe", name: "พราว", role: "เรา", color: "#9B7ED9", initial: "พ", phone: "083-555-6666", love: "การช่วยเหลือ", joined: "ม.ค. 2025" },
   ],
-  family: { id: "f1", name: "ครอบครัวสุขสันต์", memberIds: ["uDad", "uMom", "uKid", "uMe"], created: "1 ม.ค. 2025" },
+  family: { id: "f1", name: "ครอบครัวสุขสันต์", memberIds: ["uDad", "uMom", "uKid", "uMe"], created: "1 ม.ค. 2025",
+    streak: { days: 0, lastDate: null } }, // Mission Streak Egg: consecutive days with ≥1 mission done
   axes: ["ความไว้ใจ", "ความเข้าใจ", "ความใกล้ชิด", "การสื่อสาร", "การเคารพ", "การใช้เวลา"],
   questions: [
     "ช่วงนี้คุณรู้สึกใกล้ชิดกับสมาชิกคนนี้แค่ไหน",

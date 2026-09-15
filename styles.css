@@ -102,3 +102,41 @@ ul.clean li::before{content:"★";position:absolute;left:4px;color:#F4B942}
 ul.clean.warn li::before{content:"♡";color:#EF7FA8}
 svg.chart{width:100%;height:auto;display:block}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* Mission Streak Egg */
+.egg-float{position:sticky;top:10px;z-index:6;display:flex;justify-content:flex-end;margin-bottom:-52px;pointer-events:none}
+.egg-btn{pointer-events:auto;position:relative;width:52px;height:52px;border-radius:50%;border:2px solid #fff;
+  background:linear-gradient(160deg,#FDE6ED,#FBD5E3);box-shadow:var(--shadow);cursor:pointer;font-size:1.7rem;
+  display:flex;align-items:center;justify-content:center;min-width:52px;min-height:52px}
+.egg-btn:active{transform:scale(.93)}
+.egg-btn .crack{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-size:1.5rem;color:#3A2E45;pointer-events:none;font-weight:700}
+.egg-btn .daybadge{position:absolute;right:-4px;bottom:-4px;background:linear-gradient(135deg,var(--primary1),var(--primary2));
+  color:#fff;font-size:.68rem;font-weight:700;min-width:22px;height:22px;border-radius:999px;
+  display:flex;align-items:center;justify-content:center;border:2px solid #fff}
+.egg-btn.hatched{background:linear-gradient(160deg,#FFF3D6,#FFE3A6)}
+@keyframes eggwiggle{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(6deg)}}
+.egg-btn.cracking{animation:eggwiggle .5s ease infinite}
+.modal-veil{position:fixed;inset:0;background:rgba(58,46,69,.45);display:none;align-items:center;justify-content:center;
+  z-index:50;padding:20px}
+.modal-veil.open{display:flex}
+.modal-card{background:#fff;border-radius:24px;max-width:330px;width:100%;padding:22px 20px;position:relative;
+  box-shadow:0 24px 60px -12px rgba(58,46,69,.4);text-align:center;animation:popin .25s ease}
+@keyframes popin{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:none}}
+.modal-x{position:absolute;top:10px;right:10px;width:36px;height:36px;border-radius:50%;border:none;
+  background:#F9DCE7;color:#3A2E45;font-size:1rem;cursor:pointer;min-width:36px;min-height:36px}
+.modal-egg{font-size:4rem;line-height:1;margin-bottom:6px}
+.modal-card h2{font-size:1.05rem;margin-bottom:8px}
+.modal-card ul{text-align:left;font-size:.85rem;margin:0 0 14px;padding-left:22px}
+.modal-card ul li{margin-bottom:6px}
+.hatch-veil{position:fixed;inset:0;background:rgba(58,46,69,.55);display:none;align-items:center;justify-content:center;
+  z-index:60;padding:20px}
+.hatch-veil.open{display:flex}
+.hatch-stage{text-align:center}
+.hatch-egg{font-size:6rem;animation:eggshake .45s ease 4}
+@keyframes eggshake{0%,100%{transform:rotate(-12deg) scale(1)}25%{transform:rotate(10deg) scale(1.06)}50%{transform:rotate(-8deg) scale(1.1)}75%{transform:rotate(8deg) scale(1.06)}}
+.hatch-dragon{font-size:6rem;animation:dragonpop .5s ease}
+@keyframes dragonpop{0%{opacity:0;transform:scale(.2) rotate(-20deg)}70%{transform:scale(1.25) rotate(6deg)}100%{opacity:1;transform:scale(1)}}
+.hatch-text{color:#fff;font-weight:700;font-size:1.15rem;margin-top:10px;text-shadow:0 2px 8px rgba(0,0,0,.3)}
+.hatch-sub{color:#FFE3EC;font-size:.9rem}
+@media (prefers-reduced-motion:reduce){.hatch-egg,.hatch-dragon,.egg-btn.cracking,.modal-card{animation:none!important}}

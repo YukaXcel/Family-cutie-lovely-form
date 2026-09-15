@@ -68,6 +68,7 @@
 
   <!-- Screen 6: Missions -->
   <section class="view" id="view-missions">
+    <div class="egg-float"><button class="egg-btn" id="eggBtn" onclick="openEggModal()" aria-label="สถานะไข่สตรีค"></button></div>
     <div class="deco">🏆 ☁️ ภารกิจสำหรับครอบครัว</div>
     <h1 style="font-size:1.25rem;margin:6px 0">ภารกิจสำหรับครอบครัว</h1>
     <div class="card"><div class="row"><div id="ringBox"></div>
@@ -107,6 +108,15 @@
     <div id="stats"></div>
     <button class="btn btn-ghost" onclick="logout()">ออกจากระบบ</button>
   </section>
+
+  <!-- Streak egg modal + hatch celebration -->
+  <div class="modal-veil" id="eggModal" role="dialog" aria-modal="true" aria-labelledby="eggModalTitle">
+    <div class="modal-card">
+      <button class="modal-x" onclick="closeEggModal()" aria-label="ปิด">✕</button>
+      <div id="eggModalBody"></div>
+    </div>
+  </div>
+  <div class="hatch-veil" id="hatchVeil"><div class="hatch-stage" id="hatchStage"></div></div>
 
   <nav class="bottom" id="bottomnav">
     <button data-nav="home" onclick="go('home')"><span class="ic">🏠</span>หน้าหลัก</button>

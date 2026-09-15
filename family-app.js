@@ -2,7 +2,7 @@
 const $ = (s) => document.querySelector(s);
 const $$ = (s) => document.querySelectorAll(s);
 const userById = (id) => DB.users.find((u) => u.id === id) || DB.advisors.find((a) => a.id === id);
-const state = { quiz: { target: "uDad", idx: 0, answers: [] }, chatTab: "family", thread: null, resultId: "r4" };
+const state = { quiz: { target: "uDad", idx: 0, answers: [] }, chatTab: "family", thread: null, resultId: "r4", hatched: false };
 
 function showView(id, nav) {
   $$(".view").forEach((v) => v.classList.remove("active"));
@@ -137,8 +137,88 @@ function renderMissions() {
   $("#bonusList").innerHTML = DB.missions.filter((m) => m.type === "bonus" && !m.done).map((m) =>
     `<div class="mission"><span class="t" style="flex:1;font-size:.88rem">🏆 ${m.title}</span>
      <button class="badge" style="border:none;cursor:pointer" onclick="addBonus('${m.id}')">+ เพิ่ม</button></div>`).join("");
+  renderEgg();
 }
-function toggleMission(id) { const m = DB.missions.find((x) => x.id === id); m.done = !m.done; renderMissions(); }
+function toggleMission(id) {
+  const m = DB.missions.find((x) => x.id === id); m.done = !m.done;
+  let hatched = false;
+  if (m.done && m.date === "วันนี้") hatched = recordMissionDay();
+  renderMissions();
+  if (hatched) playHatch();
+}
+
+/* ---------- mission streak egg ---------- */
+function dayKey(d) {
+  const p = (n) => String(n).padStart(2, "0");
+  return d.getFullYear() + "-" + p(d.getMonth() + 1) + "-" + p(d.getDate());
+}
+// วันไหนผ่านไปโดยไม่มีภารกิจ → รีเซ็ต 0 ไข่กลับร่างแรก
+function checkStreakExpiry() {
+  const s = DB.family.streak;
+  if (!s.lastDate) return;
+  const t = new Date(), y = new Date();
+  y.setDate(t.getDate() - 1);
+  if (s.lastDate !== dayKey(t) && s.lastDate !== dayKey(y)) {
+    s.days = 0; s.lastDate = null; state.hatched = false;
+  }
+}
+// มีสมาชิกทำภารกิจวันนี้ ≥1 ข้อ → นับเป็น 1 วันสตรีค
+function recordMissionDay() {
+  const s = DB.family.streak, t = new Date(), y = new Date();
+  y.setDate(t.getDate() - 1);
+  if (s.lastDate === dayKey(t)) return false;
+  if (s.lastDate === dayKey(y)) s.days += 1;
+  else { s.days = 1; state.hatched = false; }
+  s.lastDate = dayKey(t);
+  if (s.days >= 3) {
+    s.days = 3;
+    if (!state.hatched) { state.hatched = true; return true; }
+  }
+  return false;
+}
+function renderEgg() {
+  const btn = $("#eggBtn");
+  if (!btn) return;
+  const d = DB.family.streak.days;
+  btn.classList.toggle("hatched", d >= 3);
+  btn.classList.toggle("cracking", d === 2);
+  const crack = d === 1 ? '<span class="crack" aria-hidden="true">╱</span>'
+    : d === 2 ? '<span class="crack" aria-hidden="true">╱╲</span>' : "";
+  const badge = (d === 1 || d === 2) ? `<span class="daybadge">${d}</span>` : "";
+  btn.innerHTML = (d >= 3 ? "🐉" : "🥚") + crack + badge;
+  btn.setAttribute("aria-label", d >= 3
+    ? "มังกรฟักแล้ว แตะเพื่อดูสถานะ"
+    : `ไข่สตรีค ${d} วันติดกัน แตะเพื่อดูสถานะ`);
+}
+function openEggModal() {
+  const d = DB.family.streak.days, body = $("#eggModalBody");
+  if (d >= 3) {
+    body.innerHTML = `<div class="modal-egg">🐉</div>
+      <h2 id="eggModalTitle">ยินดีด้วย! มังกรฟักแล้ว 🎉</h2>
+      <p style="font-size:.88rem;margin-bottom:12px">ครอบครัวทำภารกิจติดกัน <b>3 วัน</b> ไข่ฟักเป็นมังกรแล้ว รักษาสถานะนี้ไว้ด้วยการทำภารกิจทุกวันนะ ❤</p>
+      <button class="btn btn-primary" onclick="closeEggModal()">เยี่ยมเลย!</button>`;
+  } else {
+    body.innerHTML = `<div class="modal-egg">🥚</div>
+      <h2 id="eggModalTitle">Keep completing missions to hatch the dragon egg</h2>
+      <ul><li>Hatch the dragon egg by completing family missions for 3 consecutive days</li>
+      <li>Celebrate your progress and keep the egg's status by completing a mission every day</li></ul>
+      <p class="muted">สตรีคตอนนี้: ${d} / 3 วัน</p><div style="height:8px"></div>
+      <button class="btn btn-primary" onclick="closeEggModal()">Got it</button>`;
+  }
+  $("#eggModal").classList.add("open");
+}
+function closeEggModal() { $("#eggModal").classList.remove("open"); }
+function playHatch() {
+  const veil = $("#hatchVeil"), stage = $("#hatchStage");
+  stage.innerHTML = `<div class="hatch-egg">🥚</div><div class="hatch-text">ไข่กำลังฟัก...</div>`;
+  veil.classList.add("open");
+  setTimeout(() => {
+    stage.innerHTML = `<div class="hatch-dragon">🐉</div>
+      <div class="hatch-text">🎉 มังกรฟักแล้ว! 3 วันติดกัน 🎉</div>
+      <div class="hatch-sub">ครอบครัวน่ารักที่สุด</div>`;
+  }, 1900);
+  setTimeout(() => veil.classList.remove("open"), 3700);
+}
 function addBonus(id) { const m = DB.missions.find((x) => x.id === id); m.type = "daily"; m.date = "วันนี้"; m.done = false; renderMissions(); }
 
 /* ---------- chat ---------- */
@@ -200,6 +280,7 @@ function renderProfile() {
 function logout() { location.href = "index.html"; }
 
 document.addEventListener("DOMContentLoaded", () => {
+  checkStreakExpiry();
   renderHome(); renderQuiz(); renderResult(); renderHistory(); renderMissions(); renderThreads(); renderProfile();
   showView("home");
   $("#chatInput")?.addEventListener("keydown", (e) => { if (e.key === "Enter") sendMsg(); });
