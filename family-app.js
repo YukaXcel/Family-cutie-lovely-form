@@ -199,11 +199,11 @@ function openEggModal() {
       <button class="btn btn-primary" onclick="closeEggModal()">เยี่ยมเลย!</button>`;
   } else {
     body.innerHTML = `<div class="modal-egg">🥚</div>
-      <h2 id="eggModalTitle">Keep completing missions to hatch the dragon egg</h2>
-      <ul><li>Hatch the dragon egg by completing family missions for 3 consecutive days</li>
-      <li>Celebrate your progress and keep the egg's status by completing a mission every day</li></ul>
+      <h2 id="eggModalTitle">ทำภารกิจต่อเนื่องเพื่อฟักไข่มังกร</h2>
+      <ul><li>ฟักไข่มังกรด้วยการทำภารกิจครอบครัวติดกัน 3 วัน</li>
+      <li>ฉลองความก้าวหน้า และรักษาไข่ไว้ด้วยการทำภารกิจทุกวัน</li></ul>
       <p class="muted">สตรีคตอนนี้: ${d} / 3 วัน</p><div style="height:8px"></div>
-      <button class="btn btn-primary" onclick="closeEggModal()">Got it</button>`;
+      <button class="btn btn-primary" onclick="closeEggModal()">รับทราบ</button>`;
   }
   $("#eggModal").classList.add("open");
 }
