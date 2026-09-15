@@ -76,15 +76,6 @@
       <div id="dailyList"></div></div>
     <div class="card"><h2>ภารกิจเสริมสร้างความสัมพันธ์</h2><div id="bonusList"></div></div>
     <button class="btn btn-ghost" onclick="state.chatTab='advisor';renderThreads();openThread('tAdv');go('chat')">ขอคำปรึกษาเพิ่มเติม</button>
-    <div class="card" style="border-style:dashed;opacity:.85"><h3>🧪 สำหรับนักพัฒนา (dev only)</h3>
-      <div class="muted">จำลองวันเพื่อดูไข่แตก→มังกร โดยไม่ต้องรอวันจริง (สตรีคตอนนี้: <b id="devStreak">0</b> วัน)</div>
-      <div style="height:8px"></div>
-      <div class="grid2">
-        <button class="btn btn-ghost" onclick="devAddDay()">+1 วัน (ทำภารกิจ)</button>
-        <button class="btn btn-ghost" onclick="devSkipDay()">ข้ามวัน (ไม่ทำ)</button>
-      </div>
-      <div style="height:8px"></div>
-      <button class="btn btn-ghost" onclick="devResetStreak()">รีเซ็ตสตรีค</button></div>
   </section>
 
   <!-- Screen 7: Chat -->
@@ -126,6 +117,22 @@
     </div>
   </div>
   <div class="hatch-veil" id="hatchVeil"><div class="hatch-stage" id="hatchStage"></div></div>
+
+  <!-- Dev-only: floating button + popup (outside main screens) -->
+  <button class="dev-fab" onclick="openDevModal()" aria-label="เครื่องมือนักพัฒนา">🧪</button>
+  <div class="modal-veil" id="devModal" role="dialog" aria-modal="true" aria-labelledby="devModalTitle">
+    <div class="modal-card" style="text-align:left">
+      <button class="modal-x" onclick="closeDevModal()" aria-label="ปิด">✕</button>
+      <h2 id="devModalTitle" style="text-align:center">🧪 Dev only — จำลองวัน</h2>
+      <p class="muted" style="text-align:center">ดูไข่แตก→มังกรโดยไม่ต้องรอวันจริง (สตรีคตอนนี้: <b id="devStreak">0</b> วัน)</p>
+      <div style="height:10px"></div>
+      <button class="btn btn-ghost" onclick="devAddDay()">+1 วัน (ทำภารกิจ)</button>
+      <div style="height:8px"></div>
+      <button class="btn btn-ghost" onclick="devSkipDay()">ข้ามวัน (ไม่ทำภารกิจ)</button>
+      <div style="height:8px"></div>
+      <button class="btn btn-ghost" onclick="devResetStreak()">รีเซ็ตสตรีค</button>
+    </div>
+  </div>
 
   <nav class="bottom" id="bottomnav">
     <button data-nav="home" onclick="go('home')"><span class="ic">🏠</span>หน้าหลัก</button>

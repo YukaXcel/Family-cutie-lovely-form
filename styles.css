@@ -139,4 +139,11 @@ svg.chart{width:100%;height:auto;display:block}
 @keyframes dragonpop{0%{opacity:0;transform:scale(.2) rotate(-20deg)}70%{transform:scale(1.25) rotate(6deg)}100%{opacity:1;transform:scale(1)}}
 .hatch-text{color:#fff;font-weight:700;font-size:1.15rem;margin-top:10px;text-shadow:0 2px 8px rgba(0,0,0,.3)}
 .hatch-sub{color:#FFE3EC;font-size:.9rem}
+/* Dev-only floating button (outside main screens) */
+.dev-fab{position:fixed;right:max(14px,calc(50% - 195px + 14px));bottom:92px;z-index:40;
+  width:44px;height:44px;border-radius:50%;border:2px solid #fff;cursor:pointer;font-size:1.2rem;
+  background:linear-gradient(160deg,#FDE6ED,#FBD5E3);box-shadow:var(--shadow);opacity:.65}
+.dev-fab:hover{opacity:1}
+.dev-fab:active{transform:scale(.92)}
+
 @media (prefers-reduced-motion:reduce){.hatch-egg,.hatch-dragon,.egg-btn.cracking,.modal-card{animation:none!important}}

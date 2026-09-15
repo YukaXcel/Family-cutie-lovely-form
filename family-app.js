@@ -210,6 +210,8 @@ function openEggModal() {
   $("#eggModal").classList.add("open");
 }
 function closeEggModal() { $("#eggModal").classList.remove("open"); }
+function openDevModal() { renderEgg(); $("#devModal").classList.add("open"); }
+function closeDevModal() { $("#devModal").classList.remove("open"); }
 function playHatch() {
   const veil = $("#hatchVeil"), stage = $("#hatchStage");
   stage.innerHTML = `<div class="hatch-egg">🥚</div><div class="hatch-text">ไข่กำลังฟัก...</div>`;
